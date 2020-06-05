@@ -66,6 +66,18 @@ class UtilClass {
   }
 
 
+  static Draggable<Object> wingardiumLeviosa(Object object) {
+    return Draggable<Object> (
+      data: object,
+      child: object,
+      childWhenDragging: Container(
+        child: null,
+      ),
+      feedback: object
+    );
+  }
+
+
 
 
 }
