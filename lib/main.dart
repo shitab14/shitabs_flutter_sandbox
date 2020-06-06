@@ -10,11 +10,12 @@ class MyApp extends StatelessWidget {
     UtilClass.setOrientationLandscapeLeftPortraitUp();
     UtilClass.setSystemStyle(Colors.red, Colors.redAccent, Brightness.light, Brightness.dark);
 
+
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'SandBox',
       theme: ThemeData(
-        canvasColor: Colors.redAccent,
+        canvasColor: Colors.white,
         primarySwatch: Colors.red,
       ),
       home: MyHomePage(title: 'SandBox'),
@@ -36,8 +37,22 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void _incrementCounter() {
     setState(() {
-
+      //UtilClass.lumos(context);
+     // UtilClass.showToast("Works");
       _counter++;
+      UtilClass.showToast("$_counter", context);
+
+    });
+  }
+
+  void _lumos() {
+    setState(() {
+      UtilClass.lumos(context);
+    });
+  }
+  void _nox() {
+    setState(() {
+      UtilClass.nox(context);
     });
   }
 
@@ -59,6 +74,14 @@ class _MyHomePageState extends State<MyHomePage> {
                 '$_counter',
                 style: Theme.of(context).textTheme.display1,
               ),
+            ),
+            RaisedButton(
+              onPressed: _lumos,
+              child: Icon(Icons.flash_on),
+            ),
+            RaisedButton(
+              onPressed: _nox,
+              child: Icon(Icons.flash_off),
             ),
           ],
         ),

@@ -1,5 +1,9 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:lamp/lamp.dart';
+import 'package:toast/toast.dart';
 
 class UtilClass {
 
@@ -75,6 +79,50 @@ class UtilClass {
       ),
       feedback: object
     );
+  }
+
+  //add to dependency to pubspec.yaml
+  // lamp: ^0.0.6
+  // toast: ^0.1.5
+  // add to AndroidManifest.xml file
+  //    <uses-permission android:name="android.permission.CAMERA" />
+  //    <uses-permission android:name="android.permission.FLASHLIGHT" />
+  //    <uses-feature android:name="android.hardware.camera" />
+  //    <uses-feature android:name="android.hardware.camera.autofocus" />
+  //    <uses-feature android:name="android.hardware.camera.flash" />
+  static void lumos(BuildContext context) async {
+    try {
+      bool hasLamp = await Lamp.hasLamp;
+      if(hasLamp) {
+            Lamp.turnOn();
+            Toast.show("Lumos!", context);
+          } else {
+            Toast.show("Didn't work", context);
+          }
+    } catch (e) {
+      print(e);
+    }
+  }
+  static void nox(BuildContext context) async {
+    try {
+      bool hasLamp = await Lamp.hasLamp;
+      if(hasLamp) {
+        Lamp.turnOff();
+        Toast.show("Nox!", context);
+      } else {
+        Toast.show("Didn't work", context);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  static void printLog(String msg) {
+    log(msg);
+  }
+
+  static void showToast(String msg, BuildContext context) {
+    Toast.show(msg, context);
   }
 
 
