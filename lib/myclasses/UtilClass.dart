@@ -1,8 +1,11 @@
 import 'dart:developer';
-
+import 'dart:math';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:lamp/lamp.dart';
+import 'package:speech_recognition/speech_recognition.dart';
 import 'package:toast/toast.dart';
 
 class UtilClass {
@@ -48,6 +51,10 @@ class UtilClass {
   }
 
   // ------------ Page --------------------
+  static void setNoNotificationBar() {
+    SystemChrome.setEnabledSystemUIOverlays([SystemUiOverlay.bottom]);
+  }
+
   static void setNotificationBarColorOnly(Color color, Brightness iconBrightness) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       statusBarColor: color,
@@ -117,13 +124,59 @@ class UtilClass {
     }
   }
 
+  // add to the class
+  //  import 'package:http/http.dart' as http;
+  //  import 'dart:convert';
+  // add to dependency to pubspec.yaml
+  //   http: ^0.12.1
+  static Future<Object> accio(String api) async {
+    http.Response response = await http.get(
+        Uri.encodeFull(api),
+        headers: {
+          "Accept": "application/json"
+        }
+    );
+    print(response.body);
+    return response;
+  }
+
   static void printLog(String msg) {
-    log(msg);
+//    log(msg);
   }
 
   static void showToast(String msg, BuildContext context) {
     Toast.show(msg, context);
   }
+
+  static void swipeDetector() { //todo
+    GestureDetector(onPanUpdate: (details) {
+      if (details.delta.dx > 0) {
+        // swiping in right direction
+      }
+
+      if (details.delta.dx < 0) {
+        // swiping in left direction
+      }
+    });
+  }
+
+  T getRandomElement<T>(List<T> list) {
+    final random = new Random();
+    var i = random.nextInt(list.length);
+    return list[i];
+  }
+
+
+  // add to dependency to pubspec.yaml
+  //  speech_recognition: ^0.3.0+1
+  // add to AndroidManifest.xml file
+  //  <uses-permission android:name="android.permission.RECORD_AUDIO" />
+  // add to info.plist
+  //  <key>NSMicrophoneUsageDescription</key>
+  //  <string>This application needs to access your microphone</string>
+  //  <key>NSSpeechRecognitionUsageDescription</key>
+  //  <string>This application needs the speech recognition permission</string>
+
 
 
 

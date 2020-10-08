@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shitabsfluttersandbox/myclasses/UtilClass.dart';
+import 'package:speech_recognition/speech_recognition.dart';
 
 void main() => runApp(MyApp());
 
@@ -9,7 +10,6 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     UtilClass.setOrientationLandscapeLeftPortraitUp();
     UtilClass.setSystemStyle(Colors.red, Colors.redAccent, Brightness.light, Brightness.dark);
-
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -35,6 +35,30 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
 
+  SpeechRecognition _speechRecognition;
+  bool _isAvailable;
+  bool _isListening;
+  String resultText;
+
+  void speechToText() {
+    _speechRecognition = SpeechRecognition();
+    _speechRecognition.setAvailabilityHandler(
+            (bool result) => setState(() => _isAvailable = result)
+    );
+
+    _speechRecognition.setRecognitionStartedHandler(
+        () => setState(() => _isListening = true),
+    );
+
+    _speechRecognition.setRecognitionResultHandler(
+        (String speech) => setState(() => resultText = speech),
+    );
+
+    _speechRecognition.setRecognitionCompleteHandler(
+          () => setState(() => _isListening = false),
+    );
+  }
+
   void _incrementCounter() {
     setState(() {
       //UtilClass.lumos(context);
@@ -53,6 +77,12 @@ class _MyHomePageState extends State<MyHomePage> {
   void _nox() {
     setState(() {
       UtilClass.nox(context);
+    });
+  }
+
+  void _accio() {
+    setState(() {
+      UtilClass.accio("https://shitab14.github.io/jsons/jsonforretrofitimplementation.json");
     });
   }
 
@@ -82,6 +112,10 @@ class _MyHomePageState extends State<MyHomePage> {
             RaisedButton(
               onPressed: _nox,
               child: Icon(Icons.flash_off),
+            ),
+            RaisedButton(
+              onPressed: _accio,
+              child: Icon(Icons.add_call),
             ),
           ],
         ),
